@@ -10,7 +10,9 @@ public class Missile {
 	public static final int SIZE_X = 5;
 	public static final int SIZE_Y = 9;
 	public static final int DY = -2;
-	public static final Color COLOR = new Color(128, 50, 20);
+    public static final int IDY = 3;
+
+	public static final Color COLOR = new Color(128, 57, 117);
 	
 	private int x;
 	private int y;
@@ -34,4 +36,10 @@ public class Missile {
 	public void move() {
 		y = y + DY;
 	}
+
+	public void invaderMissileMover(){
+	    y = y + IDY;
+
+    }
+
 }

@@ -1,13 +1,9 @@
 package ca.ubc.cpsc210.spaceinvaders.ui;
 
+import ca.ubc.cpsc210.spaceinvaders.model.*;
+
+import javax.swing.*;
 import java.awt.*;
-
-import javax.swing.JPanel;
-
-import ca.ubc.cpsc210.spaceinvaders.model.SIGame;
-import ca.ubc.cpsc210.spaceinvaders.model.Invader;
-import ca.ubc.cpsc210.spaceinvaders.model.Missile;
-import ca.ubc.cpsc210.spaceinvaders.model.Tank;
 
 /*
  * The panel in which the game is rendered.
@@ -19,18 +15,26 @@ public class GamePanel extends JPanel {
 	private static final String REPLAY = "R to replay";
 	private SIGame game;
 
+	private Image bg;
+
 	// EFFECTS:  sets size and background colour of panel,
 	//           updates this with the game to be displayed
 	public GamePanel(SIGame g) {
 		setPreferredSize(new Dimension(SIGame.WIDTH, SIGame.HEIGHT));
 		setBackground(Color.GRAY);
 		this.game = g;
-	}
+        this.bg = new ImageIcon("C:\\Users\\royzh\\Google Drive\\Education\\BCS\\CPSC 210\\Lecture\\SpaceInvadersComplete\\src\\ca\\ubc\\cpsc210\\spaceinvaders\\Resources\\bg.jpg").getImage();
+
+
+    }
 	
 	@Override
 	protected void paintComponent(Graphics g) { 
 		super.paintComponent(g);
-		
+
+
+		g.drawImage(bg,0,0,this);
+
 		drawGame(g);
 		
 		if (game.isOver()) {
@@ -44,6 +48,8 @@ public class GamePanel extends JPanel {
 		drawTank(g);
 		drawInvaders(g);
 		drawMissiles(g);
+		drawInvaderMissiles(g);
+		drawSupplies(g);
 	}
 
 	// MODIFIES: g
@@ -89,7 +95,7 @@ public class GamePanel extends JPanel {
 	private void drawInvader(Graphics g, Invader i) {
 		Color savedCol = g.getColor();
 		g.setColor(Invader.COLOR);
-		g.fillOval(i.getX() - Invader.SIZE_X / 2, i.getY() - Invader.SIZE_Y / 2, Invader.SIZE_X, Invader.SIZE_Y);
+		g.fillOval(i.getX() - i.getSIZE_X() / 2, i.getY() - i.getSIZE_Y()/ 2, i.getSIZE_X(), i.getSIZE_Y());
 		g.setColor(savedCol);
 	}
 
@@ -100,6 +106,33 @@ public class GamePanel extends JPanel {
 			drawMissile(g, next);
 		}
 	}
+
+    private void drawInvaderMissiles(Graphics g) {
+        for(Missile next : game.getInvaderMissiles()) {
+            drawInvaderMissile(g, next);
+        }
+    }
+
+    private void drawInvaderMissile(Graphics g, Missile m) {
+        Color savedCol = g.getColor();
+        g.setColor(Missile.COLOR);
+        g.fillOval(m.getX() - Missile.SIZE_X / 2, m.getY() - Missile.SIZE_Y / 2, Missile.SIZE_X, Missile.SIZE_Y);
+        g.setColor(savedCol);
+    }
+
+    private void drawSupplies(Graphics g) {
+        for(Supply next : game.getSupplies()) {
+            drawSupply(g, next);
+        }
+    }
+
+    private void drawSupply(Graphics g,Supply s) {
+        Color savedCol = g.getColor();
+        g.setColor(Supply.COLOR);
+        g.fillOval(s.getX() - Supply.SIZE_X / 2, s.getY() - Supply.SIZE_Y / 2, Supply.SIZE_X, Supply.SIZE_Y);
+        g.setColor(savedCol);
+
+    }
 
 	// MODIFIES: g
 	// EFFECTS:  draws the missile m onto g

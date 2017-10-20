@@ -1,17 +1,14 @@
 package ca.ubc.cpsc210.spaceinvaders.ui;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import ca.ubc.cpsc210.spaceinvaders.model.SIGame;
+import javafx.stage.Screen;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
-import javax.swing.JFrame;
-import javax.swing.Timer;
-
-import ca.ubc.cpsc210.spaceinvaders.model.SIGame;
 
 /*
  * Represents the main window in which the space invaders
@@ -21,15 +18,26 @@ import ca.ubc.cpsc210.spaceinvaders.model.SIGame;
 public class SpaceInvaders extends JFrame {
 
 	private static final int INTERVAL = 20;
+	private static final int INTERVAL2 = 2000;
 	private SIGame game;
 	private GamePanel gp;
 	private ScorePanel sp;
+
+	private Image bg;
+	private Screen s;
+	private boolean loaded;
 
 	// EFFECTS: sets up window in which Space Invaders game will be played
 	public SpaceInvaders() {
 		super("Space Invaders");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setUndecorated(true);
+		setUndecorated(false);
+
+		loaded = false;
+
+		bg = new ImageIcon("C:\\Users\\royzh\\Google Drive\\Education\\BCS\\CPSC 210\\Lecture\\SpaceInvadersComplete\\src\\ca\\ubc\\cpsc210\\spaceinvaders\\Resources\\bg.jpg").getImage();
+
+
 		game = new SIGame();
 		gp = new GamePanel(game);
 		sp = new ScorePanel(game);
@@ -41,6 +49,8 @@ public class SpaceInvaders extends JFrame {
 		setVisible(true);
 		addTimer();
 	}
+
+
 
 	// MODIFIES: none
 	// EFFECTS:  initializes a timer that updates game each

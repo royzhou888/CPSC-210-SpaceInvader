@@ -1,22 +1,23 @@
 package ca.ubc.cpsc210.spaceinvaders.model;
 
-import java.awt.Color;
+import java.awt.*;
 
 /**
  * Represents a tank
  */
 public class Tank {
 	
-	public static final int SIZE_X = 15;
-	public static final int SIZE_Y = 8;
-	public static final int DX = 2;
+	public static final int SIZE_X = 20;
+	public static final int SIZE_Y = 15;
+	public static final int DX = 10;
 	public static final int Y_POS = SIGame.HEIGHT - 40;
-	public static final Color COLOR = new Color(250, 128, 20);
+	public static final Color COLOR = new Color(48, 250, 60);
     private static final int LEFT = -1;
     private static final int RIGHT = 1;
 
 	private int direction;
     private int x;
+
 
 	// EFFECTS: places tank at position (x, Y_POS) facing right.
 	public Tank(int x) {
@@ -50,6 +51,7 @@ public class Tank {
 	//           constrained to remain within vertical boundaries of game
 	public void move() {
 		x = x + direction * DX;
+
 		
 		handleBoundary();
 	}
@@ -62,4 +64,12 @@ public class Tank {
 		else if (x > SIGame.WIDTH)
 			x = SIGame.WIDTH;
 	}
+
+    public boolean collidedWith(Missile m) {
+        Rectangle invaderBoundingRect = new Rectangle(getX() - SIZE_X / 2, Y_POS - SIZE_Y / 2, SIZE_X, SIZE_Y);
+        Rectangle missileBoundingRect = new Rectangle(m.getX() - Missile.SIZE_X / 2, m.getY() - Missile.SIZE_Y/ 2,
+                Missile.SIZE_X, Missile.SIZE_Y);
+        return invaderBoundingRect.intersects(missileBoundingRect);
+    }
+
 }
